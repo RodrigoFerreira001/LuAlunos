@@ -4,10 +4,7 @@ local Curso = require "Curso"
 local Disciplina = require "Disciplina"
 
 disciplinas = {}
-disciplina_index = 1
-
 alunos = {}
-aluno_index = 1
 
 
 option = 0
@@ -17,7 +14,8 @@ while(true) do
 	print("1 - Inserir.")
 	print("2 - Alterar.")
 	print("3 - Remover.")
-	print("4 - Sair.")
+	print("4 - Listar.")
+	print("5 - Sair.")
 
 	option = io.read()
 	option = tonumber(option)
@@ -53,15 +51,8 @@ while(true) do
 				local disciplina = Disciplina.new(codigo, nome, carga_horaria, valor)
 
 				table.insert(disciplinas, disciplina)
-				--disciplinas[disciplina_index] = disciplina
-				--disciplina_index = disciplina_index + 1
 
-				--print(disciplinas[0]:get_nome())
-
-				for i, element in pairs(disciplinas) do
-					print(i, "nome:", element:get_nome())
-				end
-
+				print("Disciplina "..nome.." inserida com sucesso!")
 				io.read()
 
 			elseif(option == 2) then
@@ -138,7 +129,7 @@ while(true) do
 
 				print("Disciplina "..nome.." alterada com sucesso!")
 				io.read()
-
+        
 			elseif(option == 2) then
 				print("Qual aluno você deseja alterar? (-1 para cancelar)")
 				for i, element in pairs(alunos) do
@@ -221,6 +212,29 @@ while(true) do
 			end
 		end
 	elseif(option == 4) then
+		while(true) do
+			os.execute("clear")
+			print("Escolha alvo da operação de Listagem.")
+			print("1 - Disciplina.")
+			print("2 - Aluno.")
+			print("3 - Curso.")
+			print("4 - Matricula.")
+			print("5 - Voltar.")
+
+			option = io.read()
+			option = tonumber(option)
+
+			if(option == 1) then
+			elseif(option == 2) then
+			elseif(option == 3) then
+			elseif(option == 4) then
+			elseif(option == 5) then
+				break
+			else
+				print("Opção inválida")
+			end
+		end
+	elseif(option == 5) then
 		break
 	else
 		print("Opção inválida")
