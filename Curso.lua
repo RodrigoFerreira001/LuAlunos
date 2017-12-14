@@ -1,23 +1,19 @@
+local classes = require "classes"
+local Disciplina = require "Disciplina"
+
 -- Meta class
-Curso = {codigo = 0, nome = "", duracao = 0 ,grade = {}}
+local Curso = classes.class()
 
 -- Derived class method new
-function Curso:new (codigo,nome,duracao,grade)
-   local course = {}
-   setmetatable(course, self)
-   self.__index = self
-   self.codigo = codigo or 0
-   self.nome = nome or "none"
-   self.duracao = duracao or 0;
-   self.grade = grade or {}
-   return course
+function Curso:new (codigo,nome,duracao)
+   self.codigo = codigo
+   self.nome = nome
+   self.duracao = duracao
+   self.grade = {}
 end
 
-function Curso:printCurso()
-  print(self.codigo)
-  print(self.nome)
-  print(self.duracao)
-  print(self.grade)
+function Curso:add_disciplina(disciplina)
+	table.insert(self.grade, disciplina)
 end
 
 function Curso:set_codigo(codigo)
@@ -51,3 +47,5 @@ end
 function Curso:get_grade()
 	return self.grade
 end
+
+return Curso

@@ -1,43 +1,36 @@
-require "Aluno"
+local classes = require "classes"
+local Aluno = require "Aluno"
 
-Matricula = {numero = 0, aluno = "", periodo = ""}
+local Matricula = classes.class()
 
-function Matricula:new (numero, aluno, periodo)
-	setmetatable({}, Matricula)
-
+function Matricula:init (numero, aluno, periodo)
 	self.numero = numero
 	self.aluno = aluno
 	self.periodo = periodo
-
-	return self
 end
 
--- Setters
-function Matricula:setNumero(numero)
-		self.numero = numero
-end
-function Matricula:setAluno(aluno)
-		self.aluno = aluno
-end
-function Matricula:setPeriodo(periodo)
-		self.periodo = periodo
+function Matricula:set_numero(numero)
+	self.numero = numero
 end
 
--- Getters
-function Matricula:getNumero()
-		return self.numero
-end
-function Matricula:getAluno()
-		return self.aluno
-end
-function Matricula:getPeriodo()
-		return self.periodo
+function Matricula:get_numero()
+	return self.numero
 end
 
+function Matricula:set_aluno(aluno)
+	self.aluno = aluno
+end
 
---[[
-NUMERO, ALUNO, PERIODO
-Associada à matrícula existe uma relação das disciplinas matriculadas
-que são selecionadas a partir da grade curricular do curso do aluno. O valor total
-da matrícula é igual à soma do valor de cada disciplina matriculada.
-]]
+function Matricula:get_aluno()
+	return self.aluno
+end
+
+function Matricula:set_periodo(periodo)
+	self.periodo = periodo
+end
+
+function Matricula:get_periodo()
+	return self.periodo
+end
+
+return Matricula
