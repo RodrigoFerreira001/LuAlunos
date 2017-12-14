@@ -1,16 +1,14 @@
+local classes = require "classes"
+
 -- Meta class
-Disciplina = {codigo = 0, nome = "", carga_horaria = 0, valor = 0}
+local Disciplina = classes.class()
 
 -- Derived class method new
-function Disciplina:new (codigo, nome, carga_horaria, valor)
-   local acnt = {}
-   setmetatable(acnt, self)
-   self.__index = self
-   self.codigo = codigo or 0
-   self.nome = nome or ""
-   self.carga_horaria = carga_horaria or 0
-   self.valor = valor or 0
-   return acnt
+function Disciplina:init (codigo, nome, carga_horaria, valor)
+   self.codigo = codigo
+   self.nome = nome
+   self.carga_horaria = carga_horaria
+   self.valor = valor
 end
 
 function Disciplina:set_codigo(codigo)
@@ -29,7 +27,6 @@ function Disciplina:get_nome()
 	return self.nome
 end
 
-
 function Disciplina:set_carga_horaria(carga_horaria)
 	self.carga_horaria = carga_horaria
 end
@@ -45,3 +42,5 @@ end
 function Disciplina:get_valor(valor)
 	return self.valor
 end
+
+return Disciplina

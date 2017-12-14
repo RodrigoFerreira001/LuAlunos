@@ -1,3 +1,8 @@
+require "Aluno"
+require "Curso"
+require "Disciplina"
+require "Matricula"
+
 function menu_1()
 	print("Escolha operação:")
 	print("1 - Inserir.")
@@ -17,9 +22,9 @@ end
 
 
 function readInput(lower, upper)
-	local ok, msg =
+	ok, option, msg =
 		pcall(function ()
-		local option = io.read()
+		option = io.read()
 		option = tonumber(option)
 		if(option < lower or option > upper) then error() end
 		end)
@@ -33,21 +38,26 @@ function readInput(lower, upper)
 end
 
 function menuLoop()
-	local input, valid, quit
+	local input,input2, valid, quit
 	while (not valid) do
 		menu_1()
 		input, valid = readInput(1, 4)
 	end
-	parseInput(input)
+	--parseInput(input)
 
 	repeat
 		menu_2()
-		input, valid = readInput(1, 5)
+		input2, valid = readInput(1, 5)
 	until (valid)
+	print(input, input2)
+	parseInput(input, input2)
 end
 
-function parseInput(input)
-	if(input == 4) then
+function parseInput(input, input2)
+	if(input == 1) then
+		if(input2 == 1) then
+			print("logging")
+		end
 		os.exit()
 	end
 end
