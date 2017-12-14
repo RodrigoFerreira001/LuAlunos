@@ -262,7 +262,27 @@ while(true) do
 			option = tonumber(option)
 
 			if(option == 1) then
+				if(#disciplinas == 0) then
+					print("Não há disciplinas cadastradas!")
+					io.read()
+				else
+					for i, element in pairs(disciplinas) do
+						print("Nome: "..element:get_nome().."\nCódigo: "..element:get_codigo().."\nCarga Horária: "..element:get_carga_horaria().."\nValor: "..element:get_valor().."\n")
+					end
+					io.read()
+				end
+
 			elseif(option == 2) then
+				if(#alunos == 0) then
+					print("Não há alunos cadastradas!")
+					io.read()
+				else
+					for i, element in pairs(alunos) do
+						print("Nome: "..element:get_nome().."\nRA: "..element:get_ra().."\nEmail: "..element:get_email().."\nCurso: "..element:get_curso().."\n")
+					end
+					io.read()
+				end
+				
 			elseif(option == 3) then
 			elseif(option == 4) then
 			elseif(option == 5) then
