@@ -5,7 +5,7 @@ local Disciplina = require "Disciplina"
 local Curso = classes.class()
 
 -- Derived class method new
-function Curso:new (codigo,nome,duracao)
+function Curso:init (codigo,nome,duracao)
    self.codigo = codigo
    self.nome = nome
    self.duracao = duracao
@@ -16,11 +16,11 @@ function Curso:add_disciplina(disciplina)
 	table.insert(self.grade, disciplina)
 end
 
-function Curso:set_codigo(codigo)
+function Curso:get_codigo()
 	return self.codigo
 end
 
-function Curso:get_codigo(codigo)
+function Curso:set_codigo(codigo)
 	self.codigo = codigo
 end
 

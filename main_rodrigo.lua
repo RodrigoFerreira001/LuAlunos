@@ -5,7 +5,8 @@ local Disciplina = require "Disciplina"
 
 disciplinas = {}
 alunos = {}
-
+cursos = {}
+matriculas = {}
 
 option = 0
 while(true) do
@@ -78,6 +79,24 @@ while(true) do
 				io.read()
 
 			elseif(option == 3) then
+				os.execute("clear")
+				print("Entre com os dados do curso")
+				print("Código:")
+				local codigo = io.read()
+
+				print("Nome:")
+				local nome = io.read()
+
+				print("Duração:")
+				local duracao = io.read()
+
+				local curso = Curso.new(codigo, nome, duracao)
+
+				table.insert(cursos, curso)
+
+				print("Curso "..nome.." inserido com sucesso!")
+				io.read()
+
 			elseif(option == 4) then
 			elseif(option == 5) then
 				break
@@ -174,11 +193,121 @@ while(true) do
 				end
 
 			elseif(option == 3) then
+				if(#cursos == 0) then
+					print("Não há cursos cadastrados")
+					io.read()
+				else
+					while(true) do
+						os.execute("clear")
+						print("O que deseja fazer?")
+						print("1 - Alterar dados do curso")
+						print("2 - Vincular nova disciplina à grade do curso")
+						print("3 - Desvincular disciplina da grade do curso")
+						print("4 - Voltar")
+
+						option = tonumber(io.read())
+
+						if(option == 1) then
+							os.execute("clear")
+
+							print("Qual curso você deseja alterar? (-1 para cancelar)")
+							for i, element in pairs(cursos) do
+								print(i, element:get_nome())
+							end
+
+							local id = tonumber(io.read())
+							if(id == -1) then
+								break
+							end
+
+							print("Entre com os dados do curso")
+							print("Código:")
+							local codigo = io.read()
+
+							print("Nome:")
+							local nome = io.read()
+
+							print("Duração:")
+							local duracao = io.read()
+
+							cursos[id]:set_nome(nome)
+							cursos[id]:set_codigo(codigo)
+							cursos[id]:set_duracao(duracao)
+
+							print("Curso "..nome.." alterado com sucesso!")
+							io.read()
+						elseif(option == 2) then
+							if(#disciplinas == 0) then
+								print("Não há disciplinas cadastradas!")
+								io.read()
+							else
+								print("Qual curso você deseja alterar? (-1 para cancelar)")
+								for i, element in pairs(cursos) do
+									print(i, element:get_nome())
+								end
+
+								local id = tonumber(io.read())
+								if(id == -1) then
+									break
+								end
+
+								print("Qual disciplina você deseja vincular?")
+
+								for i, element in pairs(disciplinas) do
+									print(i, element:get_nome())
+								end
+
+								option = tonumber(io.read())
+
+								table.insert(cursos[id]:get_grade(), disciplinas[option])
+
+
+							end
+						elseif(option == 3) then
+							if(#disciplinas == 0) then
+								print("Não há disciplinas cadastradas!")
+								io.read()
+							else
+								print("Qual curso você deseja alterar? (-1 para cancelar)")
+								for i, element in pairs(cursos) do
+									print(i, element:get_nome())
+								end
+
+								local id = tonumber(io.read())
+								if(id == -1) then
+									break
+								end
+								if (#cursos[id]:get_grade() == 0) then
+									print("Não existem disciplinas vinculadas neste curso!")
+									io.read()
+									break
+								end
+								print("Qual disciplina você deseja desvincular?")
+
+								for i, element in pairs(cursos[id]:get_grade()) do
+									print(i, element:get_nome())
+								end
+
+								option = tonumber(io.read())
+
+								table.remove(cursos[id]:get_grade(), option)
+
+							end
+
+						elseif(option == 4) then
+							break
+						else
+							print("Opção inválida")
+							io.read()
+						end
+					end
+				end
 			elseif(option == 4) then
 			elseif(option == 5) then
 				break
 			else
 				print("Opção inválida")
+				io.read()
 			end
 		end
 	elseif(option == 3) then
@@ -246,6 +375,7 @@ while(true) do
 				break
 			else
 				print("Opção inválida")
+				io.read()
 			end
 		end
 	elseif(option == 4) then
@@ -282,18 +412,34 @@ while(true) do
 					end
 					io.read()
 				end
-				
+
 			elseif(option == 3) then
+				if(#cursos == 0) then
+					print("Não há cursos cadastradas!")
+					io.read()
+				else
+					for i, element in pairs(cursos) do
+						--
+						print("Nome: "..element:get_nome().."\nCódigo: "..element:get_codigo().."\nDuração: "..element:get_duracao().."\n")
+						for j, elementj in pairs(cursos[i]:get_grade()) do
+							print("Disciplina: "..elementj:get_nome().."\n")
+						--
+						end
+					end
+					io.read()
+				end
 			elseif(option == 4) then
 			elseif(option == 5) then
 				break
 			else
 				print("Opção inválida")
+				io.read()
 			end
 		end
 	elseif(option == 5) then
 		break
 	else
 		print("Opção inválida")
+		io.read()
 	end
 end
