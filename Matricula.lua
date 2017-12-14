@@ -7,6 +7,7 @@ function Matricula:init (numero, aluno, periodo)
 	self.numero = numero
 	self.aluno = aluno
 	self.periodo = periodo
+	self.disciplinas = {}
 end
 
 function Matricula:set_numero(numero)
@@ -31,6 +32,31 @@ end
 
 function Matricula:get_periodo()
 	return self.periodo
+end
+
+function Matricula:add_disciplina(disciplina)
+	table.insert(self.disciplinas, disciplina)
+end
+
+function Matricula:remove_disciplina(disciplina)
+	table.remove(self.disciplinas, disciplina)
+end
+
+function Matricula:get_disciplinas()
+	return self.disciplinas
+end
+
+function Matricula:get_valor_total()
+	local valor_total = 0
+
+	if(#self.disciplinas == 0) then
+		return valor_total
+	else
+		for i, element in pairs(disciplinas) do
+			valor_total = valor_total + element:get_valor()
+		end
+		return valor_total
+	end
 end
 
 return Matricula

@@ -2,6 +2,7 @@ local classes = require "classes"
 local Aluno = require "Aluno"
 local Curso = require "Curso"
 local Disciplina = require "Disciplina"
+local Matricula = require "Matricula"
 
 disciplinas = {}
 alunos = {}
@@ -114,6 +115,40 @@ while(true) do
 				io.read()
 
 			elseif(option == 4) then
+				os.execute("clear")
+				print("Entre com os dados da matrícula")
+				print("Numero:")
+				local numero = io.read()
+				local id
+
+				if (#alunos == 0) then
+					print("Não é possivel realizar a matricula, pois não há alunos cadastrados!")
+					io.read()
+				else
+					while(true) do
+						print("Selecione o aluno:")
+						for i, element in pairs(alunos) do
+							print(i, element:get_nome())
+						end
+						id = tonumber(io.read())
+						if (alunos[id] == nil) then
+							print("Selecione um aluno válido!")
+						else
+							break
+						end
+					end
+
+					print("Periodo:")
+					local periodo = io.read()
+
+					local matricula = Matricula.new(numero, alunos[id], periodo)
+
+					table.insert(matriculas, matricula)
+
+					print("Matricula "..numero.." cadastrada com sucesso!")
+					io.read()
+				end
+
 			elseif(option == 5) then
 				break
 			else
@@ -346,6 +381,151 @@ while(true) do
 					end
 				end
 			elseif(option == 4) then
+				if(#matriculas == 0) then
+					print("Não há matriculas cadastradas")
+					io.read()
+				else
+					while(true) do
+						os.execute("clear")
+						print("O que deseja fazer?")
+						print("1 - Alterar dados da matricula")
+						print("2 - Vincular nova disciplina à matricula")
+						print("3 - Desvincular disciplina da matricula")
+						print("4 - Voltar")
+
+						option = tonumber(io.read())
+
+						if(option == 1) then
+							os.execute("clear")
+
+							print("Qual matricula você deseja alterar? (-1 para cancelar)")
+							for i, element in pairs(matriculas) do
+								print(i.." Matricula: "..element:get_numero())
+							end
+
+							local id = tonumber(io.read())
+							if(id == -1) then
+								break
+							end
+
+							print("Numero:")
+							local numero = io.read()
+							local id_aluno
+
+							if (#alunos == 0) then
+								print("Não é possivel realizar a matricula, pois não há alunos cadastrados!")
+								io.read()
+							else
+								while(true) do
+									print("Selecione o aluno:")
+									for i, element in pairs(alunos) do
+										print(i, element:get_nome())
+									end
+									id_aluno = tonumber(io.read())
+									if (alunos[id_aluno] == nil) then
+										print("Selecione um aluno válido!")
+									else
+										break
+									end
+								end
+
+								print("Periodo:")
+								local periodo = io.read()
+
+								local matricula = Matricula.new(numero, alunos[id_aluno], periodo)
+								matriculas[id]:set_numero(numero)
+								matriculas[id]:set_aluno(alunos[id_aluno])
+								matriculas[id]:set_periodo(periodo)
+
+								print("Matricula "..numero.." alterado com sucesso!")
+								io.read()
+							end
+
+						elseif(option == 2) then
+							if(#disciplinas == 0) then
+								print("Não há disciplinas cadastradas!")
+								io.read()
+							else
+								print("Qual matricula você deseja alterar? (-1 para cancelar)")
+								for i, element in pairs(matriculas) do
+									print(i.." Matricula: "..element:get_numero())
+								end
+
+								local id = tonumber(io.read())
+								if(id == -1) then
+									break
+								end
+
+								print("Qual disciplina você deseja vincular?")
+
+								local nome
+								local has_disciplina = false
+								for i, element in pairs(disciplinas) do
+									print(i, element:get_nome())
+								end
+
+								option = tonumber(io.read())
+
+								nome = disciplinas[option]:get_nome()
+
+								for i, element in pairs(matriculas[id]:get_aluno():get_curso():get_grade()) do
+									if (element:get_nome() == nome) then
+										print ("Não é possivel vincular uma disciplina já vinculada anteriormente!")
+										io.read()
+										has_disciplina = true
+									end
+								end
+
+								if(has_disciplina == true) then
+									break
+								end
+
+								matriculas[id]:add_disciplina(disciplinas[option])
+								-- table.insert(matriculas[id]:get_aluno():get_curso():get_grade(), disciplinas[option])
+
+								print("Disciplina "..nome.." foi vinculada com sucesso!")
+							end
+						elseif(option == 3) then
+							if(#disciplinas == 0) then
+								print("Não há disciplinas cadastradas!")
+								io.read()
+							else
+								print("Qual matricula você deseja alterar? (-1 para cancelar)")
+								for i, element in pairs(matriculas) do
+									print(i.." Matricula: "..element:get_numero())
+								end
+
+								local id = tonumber(io.read())
+								if(id == -1) then
+									break
+								end
+
+								if (#matriculas[id]:get_disciplinas() == 0) then
+									print("Não existem disciplinas vinculadas nesta matricula!")
+									io.read()
+									break
+								end
+								print("Qual disciplina você deseja desvincular?")
+
+								for i, element in pairs(matriculas[id]:get_disciplinas()) do
+									print(i, element:get_nome())
+								end
+
+								option = tonumber(io.read())
+
+								matriculas[id].remove_disciplina(option)
+								-- table.remove(cursos[id]:get_grade(), option)
+
+							end
+
+						elseif(option == 4) then
+							break
+						else
+							print("Opção inválida")
+							io.read()
+						end
+					end
+				end
 			elseif(option == 5) then
 				break
 			else
@@ -435,6 +615,27 @@ while(true) do
 					io.read()
 				end
 			elseif(option == 4) then
+				if(#matriculas == 0) then
+					print("Não há matriculas cadastradas!")
+					io.read()
+				else
+					local nome
+					print("Qual matricula você deseja remover? (-1 para cancelar)")
+					for i, element in pairs(matriculas) do
+						print(i.." Matricula: "..element:get_numero())
+					end
+
+					local id = tonumber(io.read())
+					if(id == -1) then
+						break
+					end
+
+					nome = matriculas[id]:get_numero()
+					table.remove(matriculas, id)
+
+					print("Matricula "..nome.." removida com sucesso!")
+					io.read()
+				end
 			elseif(option == 5) then
 				break
 			else
@@ -446,10 +647,10 @@ while(true) do
 		while(true) do
 			os.execute("clear")
 			print("Escolha alvo da operação de Listagem.")
-			print("1 - Disciplina.")
-			print("2 - Aluno.")
-			print("3 - Curso.")
-			print("4 - Matricula.")
+			print("1 - Disciplinas.")
+			print("2 - Alunos.")
+			print("3 - Cursos.")
+			print("4 - Matriculas.")
 			print("5 - Voltar.")
 
 			option = io.read()
@@ -493,6 +694,20 @@ while(true) do
 					io.read()
 				end
 			elseif(option == 4) then
+				if(#matriculas == 0) then
+					print("Não há matriculas cadastradas!")
+					io.read()
+				else
+					for i, element in pairs(matriculas) do
+						--
+						print("Numero: "..element:get_numero().."\nAluno: "..element:get_aluno():get_nome().."\nPeriodo: "..element:get_periodo().."\nValor Total da Matricula: "..element:get_valor_total().."\n")
+						for j, elementj in pairs(matriculas[i]:get_disciplinas()) do
+							print("Disciplina: "..elementj:get_nome().."\n")
+						--
+						end
+					end
+					io.read()
+				end
 			elseif(option == 5) then
 				break
 			else
