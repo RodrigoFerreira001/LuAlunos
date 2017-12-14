@@ -171,7 +171,7 @@ while(true) do
 
 				print("Aluno "..nome.." alterado com sucesso!")
 				io.read()
-				
+
 			elseif(option == 3) then
 			elseif(option == 4) then
 			elseif(option == 5) then
@@ -195,6 +195,23 @@ while(true) do
 
 			if(option == 1) then
 			elseif(option == 2) then
+				local nome
+				print("Qual aluno você deseja remover? (-1 para cancelar)")
+				for i, element in pairs(alunos) do
+					print(i, element:get_nome())
+				end
+
+				local id = tonumber(io.read())
+				if(id == -1) then
+					break
+				end
+
+				nome = alunos[id]:get_nome()
+				table.remove(alunos, id)
+
+				print("Aluno "..nome.." removido com sucesso!")
+				io.read()
+
 			elseif(option == 3) then
 			elseif(option == 4) then
 			elseif(option == 5) then
