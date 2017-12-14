@@ -13,7 +13,8 @@ while(true) do
 	print("1 - Inserir.")
 	print("2 - Alterar.")
 	print("3 - Remover.")
-	print("4 - Sair.")
+	print("4 - Listar.")
+	print("5 - Sair.")
 
 	option = io.read()
 	option = tonumber(option)
@@ -141,6 +142,29 @@ while(true) do
 			end
 		end
 	elseif(option == 4) then
+		while(true) do
+			os.execute("clear")
+			print("Escolha alvo da operação de Listagem.")
+			print("1 - Disciplina.")
+			print("2 - Aluno.")
+			print("3 - Curso.")
+			print("4 - Matricula.")
+			print("5 - Voltar.")
+
+			option = io.read()
+			option = tonumber(option)
+
+			if(option == 1) then
+			elseif(option == 2) then
+			elseif(option == 3) then
+			elseif(option == 4) then
+			elseif(option == 5) then
+				break
+			else
+				print("Opção inválida")
+			end
+		end
+	elseif(option == 5) then
 		break
 	else
 		print("Opção inválida")
